@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Capitalism Tycoon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>">
+<meta name="theme-color" content="#28a7cf">
+<meta name="description" content="Idle Tycoon sur le thème du capitalisme : investis, gagne, réinvestis.">
+<style>
+*{box-sizing:border-box}html,body{margin:0;padding:0;background:#e9f1f7;color:#17324a;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+h1{font-family:Nunito,Inter,sans-serif;font-weight:900;letter-spacing:.5px;margin:0}
+h2{font-family:Nunito,Inter,sans-serif;font-weight:800;margin:24px 0 12px}
+.hero{display:flex;gap:24px;align-items:center;justify-content:space-between;padding:24px 28px;background:linear-gradient(180deg,#45c2e0,#2aa1c8);color:#fff;border-bottom:8px solid #1a7fa1}
+.hero__left{max-width:760px}
+.hero__left p{margin:8px 0 16px;font-weight:600}
+.hero__img{display:flex;align-items:center;justify-content:center}
+.hero__svg{width:320px;max-width:35vw;border-radius:18px;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+.stats{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.stat{background:#fff;color:#17324a;border-radius:14px;padding:10px 14px;min-width:160px;box-shadow:0 6px 14px rgba(0,0,0,.15)}
+.stat .label{font-size:12px;font-weight:700;opacity:.7}
+.stat .value{font-size:22px;font-weight:900}
+.btn{border:0;border-radius:14px;padding:10px 14px;font-weight:800;cursor:pointer;box-shadow:0 6px 14px rgba(0,0,0,.15);transition:transform .08s ease}
+.btn:active{transform:translateY(1px)}
+.btn--green{background:#2ecc71;color:#082414}
+.btn--red{background:#ff6b6b;color:#3b0a0a}
+.container{max-width:1080px;margin:24px auto;padding:0 18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card{background:#fff;border-radius:18px;padding:14px;box-shadow:0 10px 22px rgba(0,0,0,.12);display:flex;flex-direction:column;gap:10px}
+.card h3{margin:0;font-family:Nunito,Inter,sans-serif;font-weight:800}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.small{opacity:.8;font-size:12px}
+.price{font-weight:900}
+.buy{background:#ffd166;border:0;border-radius:12px;padding:8px 12px;font-weight:900;cursor:pointer}
+.buy:disabled{opacity:.5;cursor:not-allowed}
+footer{display:flex;justify-content:center;gap:16px;align-items:center;padding:20px 16px;color:#29506b}
+footer a{color:#1e8cc6;font-weight:700;text-decoration:none}
+footer .import{display:inline-flex;gap:8px;align-items:center;background:#fff;border-radius:12px;padding:6px 10px;box-shadow:0 6px 14px rgba(0,0,0,.1)}
+footer input[type=file]{display:none}
+@media(max-width:800px){.hero{flex-direction:column;align-items:flex-start}.hero__svg{width:100%;max-width:420px}}
+</style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__left">
+      <h1>CAPITALISM <span>TYCOON</span></h1>
+      <p>Investis dans des sociétés, empoche des revenus passifs et bâtis un empire.</p>
+      <div class="stats">
+        <div class="stat">
+          <div class="label">ARGENT</div>
+          <div class="value" id="money">$0</div>
+        </div>
+        <div class="stat">
+          <div class="label">REVENU / S</div>
+          <div class="value" id="income">$0</div>
+        </div>
+        <button id="saveBtn" class="btn btn--green">Sauvegarder</button>
+        <button id="resetBtn" class="btn btn--red">Reset</button>
+      </div>
+    </div>
+    <div class="hero__img">
+      <!-- Illustration vectorielle légère pour garder la charte graphique sans asset externe -->
+      <svg class="hero__svg" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="#45c2e0"/>
+            <stop offset="100%" stop-color="#2aa1c8"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="640" height="400" rx="18" fill="url(#g)" />
+        <g fill="#ffffff" opacity="0.9">
+          <circle cx="120" cy="300" r="60" />
+          <rect x="200" y="220" width="60" height="140" rx="8" />
+          <rect x="280" y="180" width="60" height="180" rx="8" />
+          <rect x="360" y="240" width="60" height="120" rx="8" />
+          <rect x="440" y="140" width="60" height="220" rx="8" />
+        </g>
+        <text x="28" y="60" fill="#ffffff" font-family="Nunito, sans-serif" font-size="42" font-weight="900">Passive Income</text>
+        <text x="28" y="100" fill="#eef9ff" font-family="Inter, sans-serif" font-size="18" font-weight="600">Invest • Earn • Reinvest</text>
+      </svg>
+    </div>
+  </header>
+
+  <main class="container">
+    <section>
+      <h2>Investissements</h2>
+      <div id="companies" class="grid"></div>
+    </section>
+
+    <section>
+      <h2>Améliorations</h2>
+      <div id="upgrades" class="grid"></div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2025 Capitalism Tycoon</span>
+    <a href="#" id="exportBtn">Exporter la sauvegarde</a>
+    <label class="import">
+      Importer
+      <input type="file" id="importFile" accept=".json">
+    </label>
+  </footer>
+
+<script>
+// --- Game State ---
+const state = {
+  money: 100,
+  incomePerSecond: 0,
+  companies: [
+    { id: 'startup', name: 'Startup Tech', cost: 50, income: 1, owned: 0, desc: 'Applis & SaaS minimalistes.' },
+    { id: 'market', name: 'Supermarchés', cost: 500, income: 12, owned: 0, desc: 'Volumes, marges serrées.' },
+    { id: 'hotel', name: 'Hôtels Luxe', cost: 5000, income: 140, owned: 0, desc: 'ADR élevé, clientèle VIP.' },
+    { id: 'oil', name: 'Pétrole & Gaz', cost: 25000, income: 820, owned: 0, desc: 'CASHFLOW massif, volatil.' },
+    { id: 'space', name: 'Mine Spatiale', cost: 100000, income: 5600, owned: 0, desc: 'Ressources rares, futuriste.' },
+  ],
+  upgrades: [
+    { id: 'ops', name: 'Optimisation Opérationnelle', desc: '+10% revenu global', cost: 1000, purchased: 0, effect: s => s.incomePerSecond *= 1.1 },
+    { id: 'ads', name: 'Marketing Data-Driven', desc: '+20% revenu des Startups', cost: 3000, purchased: 0, effect: s => addMultiplier('startup',1.2) },
+    { id: 'ai', name: 'Automatisation IA', desc: '+15% revenu global', cost: 10000, purchased: 0, effect: s => s.incomePerSecond *= 1.15 },
+  ],
+  multipliers: {},
+};
+
+function addMultiplier(id, m){
+  state.multipliers[id] = (state.multipliers[id]||1) * m;
+  recalcIncome();
+}
+function format(n){
+  if(n>=1e12) return (n/1e12).toFixed(2)+'T';
+  if(n>=1e9)  return (n/1e9 ).toFixed(2)+'B';
+  if(n>=1e6)  return (n/1e6 ).toFixed(2)+'M';
+  if(n>=1e3)  return (n/1e3 ).toFixed(2)+'k';
+  return n.toFixed(2);
+}
+function recalcIncome(){
+  let inc = 0;
+  for(const c of state.companies){
+    const mul = state.multipliers[c.id]||1;
+    inc += c.owned * c.income * mul;
+  }
+  state.incomePerSecond = inc;
+}
+function render(){
+  document.getElementById('money').textContent = '$' + format(state.money);
+  document.getElementById('income').textContent = '$' + format(state.incomePerSecond);
+  const wrap = document.getElementById('companies');
+  wrap.innerHTML = '';
+  state.companies.forEach((c,idx)=>{
+    const el = document.createElement('div');
+    el.className='card';
+    el.innerHTML = `
+      <div class="row">
+        <h3>${c.name}</h3>
+        <div class="small">Possédé·es: <b>${c.owned}</b></div>
+      </div>
+      <div class="small">${c.desc}</div>
+      <div class="row">
+        <div class="small">Revenu: <b>$${format(c.income*(state.multipliers[c.id]||1))}/s</b> / unité</div>
+        <button class="buy" data-idx="${idx}">Acheter — $${format(c.cost)}</button>
+      </div>`;
+    wrap.appendChild(el);
+  });
+
+  const upw = document.getElementById('upgrades');
+  upw.innerHTML = '';
+  state.upgrades.forEach((u,i)=>{
+    const el = document.createElement('div');
+    el.className='card';
+    const disabled = u.purchased ? 'disabled' : '';
+    el.innerHTML = `
+      <h3>${u.name}</h3>
+      <div class="small">${u.desc}</div>
+      <div class="row">
+        <div class="price">$${format(u.cost)}</div>
+        <button class="buy" data-up="${i}" ${disabled}>${u.purchased?'Acheté':'Acheter'}</button>
+      </div>`;
+    upw.appendChild(el);
+  });
+
+  document.querySelectorAll('button.buy[data-idx]').forEach(btn=>{
+    const i = +btn.dataset.idx;
+    btn.disabled = state.money < state.companies[i].cost;
+    btn.onclick = ()=>buyCompany(i);
+  });
+  document.querySelectorAll('button.buy[data-up]').forEach(btn=>{
+    const i = +btn.dataset.up;
+    btn.disabled = state.upgrades[i].purchased || state.money < state.upgrades[i].cost;
+    btn.onclick = ()=>buyUpgrade(i);
+  });
+}
+function buyCompany(i){
+  const c = state.companies[i];
+  if(state.money >= c.cost){
+    state.money -= c.cost;
+    c.owned += 1;
+    c.cost = Math.round(c.cost * 1.15);
+    recalcIncome();
+    render();
+  }
+}
+function buyUpgrade(i){
+  const u = state.upgrades[i];
+  if(!u.purchased && state.money >= u.cost){
+    state.money -= u.cost;
+    u.purchased = 1;
+    u.effect(state);
+    recalcIncome();
+    render();
+  }
+}
+function tick(){
+  state.money += state.incomePerSecond / 10;
+  render();
+}
+function save(){ localStorage.setItem('capitalism_tycoon_save', JSON.stringify(state)); }
+function load(){
+  const raw = localStorage.getItem('capitalism_tycoon_save');
+  if(!raw) return;
+  try{ Object.assign(state, JSON.parse(raw)); }catch(e){}
+  recalcIncome();
+}
+
+document.getElementById('saveBtn').onclick = save;
+document.getElementById('resetBtn').onclick = ()=>{ localStorage.removeItem('capitalism_tycoon_save'); location.reload(); };
+document.getElementById('exportBtn').onclick = ()=>{
+  const blob = new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'capitalism-tycoon-save.json';
+  a.click();
+};
+document.getElementById('importFile').addEventListener('change', (e)=>{
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{ try{ Object.assign(state, JSON.parse(reader.result)); recalcIncome(); render(); save(); }catch(err){ alert('Fichier invalide'); } };
+  reader.readAsText(file);
+});
+
+load();
+recalcIncome();
+render();
+setInterval(tick, 100);
+</script>
+</body>
+</html>
