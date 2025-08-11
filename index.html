@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Capitalism Tycoon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>">
+  <meta name="theme-color" content="#28a7cf">
+  <meta name="description" content="Idle Tycoon sur le thème du capitalisme : investis, gagne, réinvestis.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__left">
+      <h1>CAPITALISM <span>TYCOON</span></h1>
+      <p>Investis dans des sociétés, empoche des revenus passifs et bâtis un empire.</p>
+      <div class="stats">
+        <div class="stat">
+          <div class="label">ARGENT</div>
+          <div class="value" id="money">$0</div>
+        </div>
+        <div class="stat">
+          <div class="label">REVENU / S</div>
+          <div class="value" id="income">$0</div>
+        </div>
+        <button id="saveBtn" class="btn btn--green">Sauvegarder</button>
+        <button id="resetBtn" class="btn btn--red">Reset</button>
+      </div>
+    </div>
+    <div class="hero__img">
+      <img src="assets/hero.png" alt="Capitalism Tycoon" />
+    </div>
+  </header>
+
+  <main class="container">
+    <section>
+      <h2>Investissements</h2>
+      <div id="companies" class="grid"></div>
+    </section>
+
+    <section>
+      <h2>Améliorations</h2>
+      <div id="upgrades" class="grid"></div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2025 Capitalism Tycoon</span>
+    <a href="#" id="exportBtn">Exporter la sauvegarde</a>
+    <label class="import">
+      Importer
+      <input type="file" id="importFile" accept=".json">
+    </label>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
